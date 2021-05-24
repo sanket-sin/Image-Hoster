@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.ws.Response;
 import java.util.Base64;
 import java.util.UUID;
-
-
+//made authentication controller a rest controller
+@RestController
 @RequestMapping("/")
 public class AuthenticationController {
     @Autowired
@@ -40,5 +39,6 @@ public class AuthenticationController {
                 .lastLoginTime(user.getLastLoginAt()).role(user.getRole());
         HttpHeaders headers = new HttpHeaders();
         headers.add("access-token", userAuthToken.getAccessToken());
+        return new ResponseEntity<AuthorizedUserResponse>(authorizedUserResponse,headers, HttpStatus.OK);
     }
 }

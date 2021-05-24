@@ -21,17 +21,17 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
-
+    //mapping admin api with request method get
     @RequestMapping(method = RequestMethod.GET, path = "/images/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ImageDetailsResponse> getImage(@PathVariable("id") final String imageUuid, @RequestHeader("authorization") final String authorization) throws ImageNotFoundException, UnauthorizedException, UserNotSignedInException {
-
+        //calling business logic for fetching image details
         final ImageEntity imageEntity = adminService.getImage(imageUuid, authorization);
 
         ImageDetailsResponse imageDetailsResponse = new ImageDetailsResponse().image(imageEntity.getImage()).id((int) imageEntity.getId()).name(imageEntity.getName()).description(imageEntity.getDescription()).status(imageEntity.getStatus());
-
+        return new ResponseEntity<ImageDetailsResponse>(imageDetailsResponse, HttpStatus.OK);  //returned image data with 200 status code
     }
 
-
+    //mapping admin api with request method get
     @RequestMapping(method = RequestMethod.PUT, path = "/images/update/{image_id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UpdateImageResponse> updateImage(final UpdateImageRequest updateImageRequest, @PathVariable("image_id") final long image_id, @RequestHeader("authorization") final String authorization) throws ImageNotFoundException, UnauthorizedException, UserNotSignedInException {
         ImageEntity imageEntity = new ImageEntity();
@@ -42,10 +42,10 @@ public class AdminController {
         imageEntity.setStatus(updateImageRequest.getStatus());
         imageEntity.setDescription(updateImageRequest.getDescription());
 
-
+        //calling bussiness service for updating image
         ImageEntity updatedimageEntity = adminService.updateImage(imageEntity, authorization);
         UpdateImageResponse updateImageResponse = new UpdateImageResponse().id((int) updatedimageEntity.getId()).status(updatedimageEntity.getStatus());
-
+        return new ResponseEntity<UpdateImageResponse>(updateImageResponse, HttpStatus.OK); //returned image id and status with 200 status code
     }
 
 }

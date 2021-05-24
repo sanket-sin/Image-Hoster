@@ -1,1 +1,2 @@
 "# imageHoster" 
+"# image-hoster" 

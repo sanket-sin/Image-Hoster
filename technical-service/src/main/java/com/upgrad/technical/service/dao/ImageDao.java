@@ -13,21 +13,37 @@ public class ImageDao {
 
     @PersistenceContext
     private EntityManager entityManager;
-
     public ImageEntity createImage(ImageEntity imageEntity) {
         entityManager.persist(imageEntity);
+        return imageEntity;
     }
 
     public UserAuthTokenEntity getUserAuthToken(final String accesstoken) {
+        try {
+            return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthTokenEntity.class).setParameter("accessToken", accesstoken).getSingleResult();
+        }catch (NoResultException nre){
+            return null;
+        }
     }
 
     public ImageEntity getImage(final String imageUuid) {
+        try{
+            return entityManager.createNamedQuery("ImageEntityByUuid",ImageEntity.class).setParameter("uuid", imageUuid).getSingleResult();
+        }catch (NoResultException nre){
+            return null;
+        }
     }
 
     public ImageEntity getImageById(final long Id) {
+        try{
+            return entityManager.createNamedQuery("ImageEntityByid",ImageEntity.class).setParameter("id", Id).getSingleResult();
+        }catch (NoResultException nre){
+            return null;
+        }
     }
 
     public ImageEntity updateImage(final ImageEntity imageEntity) {
-
+        entityManager.merge(imageEntity);
+        return imageEntity;
     }
 }

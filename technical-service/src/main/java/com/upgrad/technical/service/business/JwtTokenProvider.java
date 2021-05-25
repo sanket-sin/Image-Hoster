@@ -18,7 +18,7 @@ public class JwtTokenProvider {
     private static final String TOKEN_ISSUER = "https://proman.io";
 
     private final Algorithm algorithm;
-
+    //using algorithm
     public JwtTokenProvider(final String secret) {
         try {
             algorithm = Algorithm.HMAC512(secret);
@@ -26,7 +26,7 @@ public class JwtTokenProvider {
             throw new UnexpectedException(GenericErrorCode.GEN_001);
         }
     }
-
+    //generating access token
     public String generateToken(final String userUuid, final ZonedDateTime issuedDateTime, final ZonedDateTime expiresDateTime) {
 
         final Date issuedAt = new Date(issuedDateTime.getLong(ChronoField.INSTANT_SECONDS));
